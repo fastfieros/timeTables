@@ -1,0 +1,25 @@
+table {
+    width: 600px;
+    margin: 50px auto;
+}
+
+thead th {
+    font-size: 10px;
+    font-weight: normal;
+    text-align: center;
+}
+
+th[colspan='3']{
+    padding-top: 25px;
+    text-align: left;
+    border-bottom: dotted 1px #888;
+}
+
+td {
+    text-align: center;
+}
+
+td.in, td.hours { background-color: #EEEEEE; }
+td.out          { background-color: #F8F8F8; }
+
+
