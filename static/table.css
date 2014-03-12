@@ -4,22 +4,57 @@ table {
 }
 
 thead th {
-    font-size: 10px;
+    font-size: 16px;
+    font-family: Lato;
     font-weight: normal;
     text-align: center;
 }
 
-th[colspan='3']{
+th.weekheader {
     padding-top: 25px;
     text-align: left;
     border-bottom: dotted 1px #888;
+    font-family: Lato;
+    font-size: 28px;
+    font-weight: normal;
 }
+
+th.weekheader span.weeklabel { font-size: 14px; }
+th.weekheader span.weekspan  { font-size: 20px; }
 
 td {
     text-align: center;
+    font-family: Helvetica;
+    font-size: 18px;
+    
 }
 
-td.in, td.hours { background-color: #EEEEEE; }
+td.day          { background-color: #FFFFFF; }
+td.in           { background-color: #EEEEEE; }
 td.out          { background-color: #F8F8F8; }
+td.hours        { background-color: #E8E8FF; }
 
+td.predict      { 
+    color:#800; 
+    opacity:0.5;
+}
+
+td.day {
+    font-size: 18px;
+    text-align: right;
+    width: 80px;
+}
+
+td.day span.unselected ,
+td.day span.selected {
+    font-family: Lato;
+    margin-left: -2px;
+}
+td.day span.unselected {
+    opacity: 0.25;
+}
+td.day span.selected {
+    opacity: 1.0;
+    font-weight: bold;
+}
 

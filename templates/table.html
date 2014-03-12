@@ -4,12 +4,44 @@
 
 {% block head %}
     <link rel='stylesheet' href="{{ url_for("static", filename="table.css") }}" />
+    <link href='http://fonts.googleapis.com/css?family=Lato:300' rel='stylesheet' type='text/css'>
     <script src="{{ url_for("static", filename="main.js") }}"></script>
 {% endblock %}
 
 {% block content %}
 <table>
-    <thead><tr><th id='in'>in</th><th id='out'>out</th><th>hours</th><tr></thead>
-{{ tbody|safe }}
+    <thead>
+    <tr>
+        <th></th><th id='in'>in</th>
+        <th id='out'>out</th>
+        <th>hours</th>
+    </tr>
+    </thead>
+{% for item in tbody %}
+    {% if item['type'] == "weekheader" %}
+    <tr>
+        <th colspan='4' class='weekheader'><span class='weeklabel'>wk.</span>
+        {{ item['week']}} 
+        <span class='weekspan'>({{ item['start'] }} - {{ item['end'] }})</span></th>
+    {% else %}
+    <tr title="entry {{ item['idx'] }}" entry="{{ item['idx'] }}">
+        <td class="day">
+        {% for day in daystring %}
+            <span class='{% if loop.index != item['day'] %}un{% endif %}selected'>
+                {{ day }}
+            </span>
+        {% endfor %}
+        </td>
+        <td class="in" contenteditable='true' 
+            data="{{ item['in'] }}">{{ item['in'] }}
+        </td>
+        <td class="{% if not item['predict'] %}out{% else %}predict{% endif%}" 
+            contenteditable='{% if item['out'] != "-" %}true{% else %}false{% endif %}' 
+            data="{{ item['out'] }}">{{ item['out'] }}
+        </td>
+        <td class="hours">{{ item['hours'] }}</td>
+    {% endif %}
+    </tr>
+{% endfor %}
 </table>
 {% endblock %}

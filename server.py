@@ -1,17 +1,19 @@
+#!/usr/bin/env python
+
 import os,time
 from flask import Flask, render_template, url_for
 import pickle
-#import cpickle as pickle #faster but bad to debug
+import isoweek
 
 savefile="./savefile.p"
 savedata=[]
 sfmt = "%H:%M"
-
 app = Flask(__name__)
 
 def writeSavedata():
-    #TODO: Sort the data!
-    #sortData()
+
+    savedata.sort()
+    savedata.reverse()
 
     f = open(savefile, "wb")
     pickle.dump(savedata, f)
@@ -21,47 +23,59 @@ def writeSavedata():
 @app.route('/')
 def get_index():
     
-    tbody =""
-    lastDay=-1
+    tbody = []
+    lastWeek=-1
     for i in range(len(savedata)):
         entry = savedata[i]
         hours="-"
-        endtime="-"
+        endtime=None
+        predict=None
 
-        #add header row to table for each new day
-        day=time.strftime("%A", time.localtime(entry[0]))
-        if lastDay != day:
-            tbody += "<tr><th colspan='3'>%s</th><tr>\n"%day
-        lastDay = day
+        #break table by week, add "smtw<t>f" indicator to each row
+        week=time.strftime("%W", time.localtime(entry[0]))
+        if lastWeek != week:
+            start = isoweek.Week(time.localtime(entry[0]).tm_year, int(week)).day(0)
+            end = isoweek.Week(time.localtime(entry[0]).tm_year, int(week)).day(7)
+            tbody.append({"type":"weekheader", "week":week, 
+                          "start":start.strftime("%B %d"),
+                          "end"  :end.strftime("%B %d")})
+        lastWeek = week
 
 
         #add time rows for each entry
         if entry[1]:
             hours = str(round(((entry[1] - entry[0])/3600.), 2))
             endtime = time.strftime(sfmt, time.localtime(entry[1]))
+        else:
+            endtime = "(" + time.strftime(sfmt, time.localtime(3600*8+entry[0])) + ")"
+            predict = True
 
-        tbody += ("<tr title='entry %d' entry='%d'>" + \
-        "<td class='in' contenteditable='true' data=\"%s\">%s</td>" + \
-        "<td class='out' contenteditable='true' data=\"%s\">%s</td>" + \
-        "<td class='hours'>%s</td></tr>\n")%(
-                i, i,
-                time.strftime(sfmt, time.localtime(entry[0])),
-                time.strftime(sfmt, time.localtime(entry[0])),
-                endtime,
-                endtime,
-                hours
-                )
-    return render_template('table.html', tbody=tbody) 
+        dayidx = 1+int(time.strftime("%w", time.localtime(entry[0])))
+
+        tbody.append({
+            "type": "entry", 
+            "idx" : i, 
+            "day" : dayidx,
+            "in"  : time.strftime(sfmt, time.localtime(entry[0])),
+            "out" : endtime,
+            "predict" : predict,
+            "hours":hours
+        })
+
+    return render_template('table.html', 
+                        tbody=tbody, 
+                        daystring="smtwtfs ")
+
 
 @app.route('/in')
 def get_in():
     t = time.time()
 
-    if savedata[-1][0] != None and savedata[-1][1] == None:
+    if savedata[0][0] != None and savedata[0][1] == None:
         return "Already In ;)"
 
     else:
-        savedata.append([t,None])
+        savedata.insert(0, [t,None])
         s = "Arrived at: %s"%(
                 time.strftime(sfmt, time.localtime(t)))
 
@@ -74,7 +88,7 @@ def get_in():
 @app.route('/out')
 def get_out():
     t = time.time()
-    savedata[-1][1] = t
+    savedata[0][1] = t
     s = "Left at: %s"%(
             time.strftime(sfmt, time.localtime(t)))
     
@@ -115,6 +129,6 @@ if __name__ == '__main__':
         savedata=pickle.load( f )
         f.close
 
-    app.run(host='0.0.0.0', debug=True)
+    app.run(host='0.0.0.0', port=8080, use_reloader=True, debug=True)
 
 
