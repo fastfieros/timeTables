@@ -34,7 +34,7 @@ td.in           { background-color: #EEEEEE; }
 td.out          { background-color: #F8F8F8; }
 td.hours        { background-color: #E8E8FF; }
 
-td.predict      { 
+td[predict="True"]      { 
     color:#800; 
     opacity:0.5;
 }

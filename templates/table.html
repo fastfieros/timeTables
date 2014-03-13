@@ -12,7 +12,8 @@
 <table>
     <thead>
     <tr>
-        <th></th><th id='in'>in</th>
+        <th id='custom'>custom</th>
+        <th id='in'>in</th>
         <th id='out'>out</th>
         <th>hours</th>
     </tr>
@@ -35,7 +36,8 @@
         <td class="in" contenteditable='true' 
             data="{{ item['in'] }}">{{ item['in'] }}
         </td>
-        <td class="{% if not item['predict'] %}out{% else %}predict{% endif%}" 
+        <td class="out"
+            predict="{{ item['predict'] }}"
             contenteditable='{% if item['out'] != "-" %}true{% else %}false{% endif %}' 
             data="{{ item['out'] }}">{{ item['out'] }}
         </td>

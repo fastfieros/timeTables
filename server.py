@@ -103,11 +103,15 @@ def get_edit(entry, key, value):
         return "/edit/<entry>/[in|out]/<hour>:<minute>"
 
     else:
-        row = None
-        if key.lower() == "in": row=0
-        elif key.lower() == "out": row=1
+        col = None
+        if key.lower() == "in": col=0
+        elif key.lower() == "out": col=1
 
-        oldtimest = time.localtime(savedata[int(entry)][int(row)])
+        if not savedata[int(entry)][int(col)]:
+            oldtimest = time.localtime(savedata[int(entry)][0])
+        else:
+            oldtimest = time.localtime(savedata[int(entry)][int(col)])
+
         newtimest = time.strptime(("%d %d %d "%(
                                     oldtimest.tm_year,
                                     oldtimest.tm_mon,
@@ -116,11 +120,36 @@ def get_edit(entry, key, value):
 
         newtime = time.mktime(newtimest)
 
-        savedata[int(entry)][int(row)] = newtime
+        savedata[int(entry)][int(col)] = newtime
         writeSavedata()
 
-        return "edited row %s, %s to %f (%s)"%(entry, row,
+        return "edited row %s, %s to %f (%s)"%(entry, col,
                 newtime, time.strftime(sfmt, time.localtime(newtime)) )
+
+@app.route('/add/<d1>/<d2>')
+def get_add(d1, d2):
+    if (not d1) or (not d2):
+        return "/add/<year>-<month>-<day> <hour>:<minute>/<year>-<month>-<day> <hour>:<minute>"
+
+    else:
+        newstart = time.mktime(time.strptime(d1, "%Y-%m-%d %H:%M"))
+        newend   = time.mktime(time.strptime(d2, "%Y-%m-%d %H:%M"))
+
+        savedata.insert(0, [newstart, newend])
+        writeSavedata()
+
+        return "Added row."
+
+
+@app.route('/delete/<entry>')
+def get_delet(entry):
+    if not entry:
+        return "specify entry"
+
+    savedata.pop(int(entry))
+    writeSaveData()
+    return "Removed entry %d"%(int(entry))
+
 
 if __name__ == '__main__':
 

@@ -5,15 +5,21 @@ body {
     text-align: center;
 }
 
-#in, #out {
+
+#custom, #in, #out {
     cursor: pointer;
     border: solid 1px rgba(128,128,128,0.0);
     transition: box-shadow ease .2s, border ease .2s;
 }
 
-#in:hover, #out:hover {
+#custom {
+    opacity: 0.15;
+}
+
+#custom:hover, #in:hover, #out:hover {
     box-shadow: 5px 5px 5px #888;
     border: solid 1px rgba(128,128,128,0.5);
+    opacity: 1;
 }
 
 #footer {
