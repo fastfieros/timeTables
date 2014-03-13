@@ -33,14 +33,14 @@ def get_index():
         predict=None
 
         #break table by week, add "smtw<t>f" indicator to each row
-        week=time.strftime("%W", time.localtime(entry[0]))
+        week=int(time.strftime("%W", time.localtime(entry[0])))
         if lastWeek != week:
             if lastWeek != -1: #avoid first run
                 tbody.append({"type":"weekfooter", "sum":hourSum})
                 hourSum=0.
 
-            start = isoweek.Week(time.localtime(entry[0]).tm_year, int(week)).day(0)
-            end = isoweek.Week(time.localtime(entry[0]).tm_year, int(week)).day(7)
+            start = isoweek.Week(time.localtime(entry[0]).tm_year, week-1).sunday()
+            end = isoweek.Week(time.localtime(entry[0]).tm_year, week).saturday()
             tbody.append({"type":"weekheader", "week":week, 
                           "sum":hourSum,
                           "start":start.strftime("%B %d"),
