@@ -25,6 +25,7 @@ def get_index():
     
     tbody = []
     lastWeek=-1
+    hourSum=0.
     for i in range(len(savedata)):
         entry = savedata[i]
         hours="-"
@@ -34,11 +35,18 @@ def get_index():
         #break table by week, add "smtw<t>f" indicator to each row
         week=time.strftime("%W", time.localtime(entry[0]))
         if lastWeek != week:
+            if lastWeek != -1: #avoid first run
+                tbody.append({"type":"weekfooter", "sum":hourSum})
+                hourSum=0.
+
             start = isoweek.Week(time.localtime(entry[0]).tm_year, int(week)).day(0)
             end = isoweek.Week(time.localtime(entry[0]).tm_year, int(week)).day(7)
             tbody.append({"type":"weekheader", "week":week, 
+                          "sum":hourSum,
                           "start":start.strftime("%B %d"),
                           "end"  :end.strftime("%B %d")})
+
+                
         lastWeek = week
 
 
@@ -61,6 +69,12 @@ def get_index():
             "predict" : predict,
             "hours":hours
         })
+
+        hourSum += float(hours)
+
+    #calc final sum line.
+    tbody.append({"type":"weekfooter", "sum":hourSum})
+    #end calc
 
     return render_template('table.html', 
                         tbody=tbody, 
@@ -147,7 +161,7 @@ def get_delet(entry):
         return "specify entry"
 
     savedata.pop(int(entry))
-    writeSaveData()
+    writeSavedata()
     return "Removed entry %d"%(int(entry))
 
 

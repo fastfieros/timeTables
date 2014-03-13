@@ -24,6 +24,9 @@
         <th colspan='4' class='weekheader'><span class='weeklabel'>wk.</span>
         {{ item['week']}} 
         <span class='weekspan'>({{ item['start'] }} - {{ item['end'] }})</span></th>
+    {% elif item['type'] == "weekfooter" %}
+    <tr>
+        <th colspan='3'></th><th class='sum'>{{ item['sum'] }}</th>
     {% else %}
     <tr title="entry {{ item['idx'] }}" entry="{{ item['idx'] }}">
         <td class="day">
