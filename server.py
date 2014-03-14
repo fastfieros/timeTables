@@ -28,7 +28,7 @@ def get_index():
     hourSum=0.
     for i in range(len(savedata)):
         entry = savedata[i]
-        hours="-"
+        hours="0"
         endtime=None
         predict=None
 
