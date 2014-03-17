@@ -1,0 +1,36 @@
+
+#actions {
+    width: 400px;
+    margin: 0 auto;
+    height: 20px;
+    padding: 15px 0;
+}
+
+#actions div {
+    margin-right: 50px;
+    width: 98px;
+    float: left;
+    font-family: 'Verdana', sans-serif; 
+    font-weight: 100;
+    font-size: 18px;
+    border-radius: 5px;
+}
+#actions div:last-of-type {
+    margin-right: 0;
+}
+
+#custom, #in, #out {
+    cursor: pointer;
+    box-shadow: 1px 1px 1px rgba(128,128,128,0.15);
+    transition: box-shadow ease .2s, border ease .2s;
+}
+
+#in     { color: #448844; }
+#custom { color: #444488; }
+#out    { color: #884444; }
+
+#custom:hover, #in:hover, #out:hover {
+    box-shadow: 5px 5px 5px #888;
+    opacity: 1;
+}
+

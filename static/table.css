@@ -9,6 +9,11 @@ thead th {
     font-family: Lato;
     font-weight: normal;
     text-align: center;
+    border-left: solid 1px rgba(128,128,128,0.25);
+}
+thead th:first-of-type,
+thead th:nth-of-type(2) {
+    border-left: none;
 }
 
 th.weekheader {
@@ -20,8 +25,15 @@ th.weekheader {
     font-weight: normal;
 }
 
-th.weekheader span.weeklabel { font-size: 14px; }
+th.weekheader span.label-week { font-size: 14px; }
 th.weekheader span.weekspan  { font-size: 20px; }
+
+th.label-total  { 
+    text-align: right;
+    font-family: Lato;
+    font-size: 12px; 
+    opacity: 0.35;
+}
 
 th.sum {
     font-size: 20px;
