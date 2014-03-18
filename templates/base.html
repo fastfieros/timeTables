@@ -15,6 +15,11 @@
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
     <script src="//ajax.googleapis.com/ajax/libs/jquerymobile/1.4.2/jquery.mobile.min.js"></script>
 
+    <!-- jquery ui/date wrapper scripts -->
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,700">
+    <script src="https://rawgithub.com/jquery/jquery-ui/1.10.4/ui/jquery.ui.datepicker.js"></script>
+    <script id="mobile-datepicker" src="https://rawgithub.com/arschmitz/jquery-mobile-datepicker-wrapper/v0.1.1/jquery.mobile.datepicker.js"></script>
+
     <!-- my scripts -->
     <script src="{{ url_for("static", filename="main.js") }}"></script>
 </head>
@@ -41,16 +46,24 @@
     </div><!-- /footer -->
 
     <div data-role="panel" id="custom-panel" data-display="reveal" data-position="right">
-        <h3> new time entry: </h3>
-        <form>
-            <label for="day-in">day</label>
-            <input type="date" name="day-in" id="day-in" value="">
-            <label for="time-in">time in:</label>
-            <input type="time" name="time-in" id="time-in" value="08:00">
-            <label for="time-out">time out:</label>
-            <input type="time" name="time-out" id="time-out" value="16:00">
-            <button class="ui-btn ui-icon-plus ui-btn-icon-right ui-corner-all ui-shadow" id="custom-submit">add to table</button>
-        </form>
+
+        <div class="ui-field-contain"> 
+            <label for="day-in">Day:</label>
+            <!--<input type='date' data-role="date" id='day-in'>-->
+            <input data-role="date" id='day-in' value="0">
+        </div>
+
+        <div class="ui-field-contain"> 
+            <label for="time-in">in:</label>
+            <!--<input type="time" name="time-in" id="time-in" value="08:00">-->
+            <input name="time-in" id="time-in" value="08:00">
+        </div>
+        <div class="ui-field-contain"> 
+            <label for="time-out">out:</label>
+            <!--<input type="time" name="time-out" id="time-out" value="16:00">-->
+            <input name="time-out" id="time-out" value="16:00">
+        </div>
+        <button class="ui-btn ui-icon-plus ui-btn-icon-right ui-corner-all ui-shadow" id="custom-submit">add entry</button>
 
         <div class="help"><h3>quick tips</h3><ul>
         <li>Click "sign in" to add a row with an "in" time of now.</li>

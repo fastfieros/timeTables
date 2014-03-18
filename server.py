@@ -150,11 +150,11 @@ def get_edit(entry, key, value):
 @app.route('/add/<d1>/<d2>')
 def get_add(d1, d2):
     if (not d1) or (not d2):
-        return "/add/<year>-<month>-<day> <hour>:<minute>/<year>-<month>-<day> <hour>:<minute>"
+        return "/add/<month>-<day>-<year> <hour>:<minute>/<month>-<day>-<year> <hour>:<minute>"
 
     else:
-        newstart = time.mktime(time.strptime(d1, "%Y-%m-%d %H:%M"))
-        newend   = time.mktime(time.strptime(d2, "%Y-%m-%d %H:%M"))
+        newstart = time.mktime(time.strptime(d1, "%m-%d-%Y %H:%M"))
+        newend   = time.mktime(time.strptime(d2, "%m-%d-%Y %H:%M"))
 
         savedata.insert(0, [newstart, newend])
         writeSavedata()
