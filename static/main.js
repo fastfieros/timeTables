@@ -3,9 +3,20 @@ $(function() {
 
     $("#in").click(function(e){
 
+        $("#result").html("...");
+        $("#popup-result").popup("option", {
+            "theme":"a",
+            "afterclose":function(){
+                //TODO just rebuild table
+                location.reload();
+            }
+         });
+
+        $("#popup-result").popup("open", {
+            "positionTo":"window"});
+
         $.get("/in", function(d) {
-            alert(d);
-            location.reload();
+            $("#result").html(d);
         });
         
         e.preventDefault();
@@ -13,11 +24,74 @@ $(function() {
 
     $("#out").click(function(e){
 
+        $("#result").html("...");
+        $("#popup-result").popup("option", {
+            "theme":"b",
+            "afterclose":function(){
+                //TODO just rebuild table
+                location.reload();
+            }
+         });
+
+        $("#popup-result").popup("open", {
+            "positionTo":"window"});
+
         $.get("/out", function(d) {
-            alert(d);
-            location.reload();
+            $("#result").html(d);
         });
         
+        e.preventDefault();
+    });
+
+    $("#custom-submit").click(function(e){
+
+        dayin = $("#day-in")[0].value
+        timein = dayin + " " + $("#time-in")[0].value
+        timeout = dayin + " " + $("#time-out")[0].value
+        req = "/add/" + timein + "/" + timeout
+
+        $("#result").html(req);
+
+        $("#popup-result").popup("option", {
+            "theme":"a",
+            "afterclose":function(){
+                //TODO just rebuild table
+                location.reload();
+            }
+         });
+
+        $("#popup-result").popup("open", {
+            "positionTo":"window"});
+
+        $.get(req, function(d) {
+            $("#result").html(d);
+        });
+
+        e.preventDefault();
+    });
+
+    $("span.delete").click(function(e){
+
+        req = "/delete/" + $(this).attr('entry');
+
+        $("#result").html("...");
+
+        $("#popup-result").popup("option", {
+            "theme":"b",
+            "afterclose":function(){
+                //TODO just rebuild table
+                location.reload();
+            }
+         });
+
+        $("#popup-result").popup("open", {
+            "positionTo":"window"});
+
+        $.get(req, function(d) {
+            $("#result").html(d);
+        });
+
+        e.preventDefault();
         e.preventDefault();
     });
 

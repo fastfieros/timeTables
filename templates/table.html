@@ -3,17 +3,29 @@
 {% block title %}Current TimeState{% endblock %}
 
 {% block head %}
-    <link rel='stylesheet' href="{{ url_for("static", filename="table.css") }}" />
+    <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jquerymobile/1.4.2/jquery.mobile.min.css" />
+    <link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Lato:300' type='text/css'>
+
+    <link rel='stylesheet' href="{{ url_for("static", filename="style.css") }}" />
     <link rel='stylesheet' href="{{ url_for("static", filename="actions.css") }}" />
-    <link href='http://fonts.googleapis.com/css?family=Lato:300' rel='stylesheet' type='text/css'>
+    <link rel='stylesheet' href="{{ url_for("static", filename="table.css") }}" />
+
+    <!-- jquery mobile scripts -->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquerymobile/1.4.2/jquery.mobile.min.js"></script>
+
+    <!-- my scripts -->
     <script src="{{ url_for("static", filename="main.js") }}"></script>
 {% endblock %}
 
 {% block content %}
+
+<div data-role="popup" class="ui-btn ui-corner-all ui-shadow ui-btn-inline" data-transition="pop" id="popup-result"><span id="result"></span></div>
+
 <div id="actions">
-    <div id='in'>in</div>
-    <div id='custom'>custom</div>
-    <div id='out'>out</div>
+    <a href="#in" id='in'>sign in</a>
+    <a href="#out" id='out'>sign out</a>
+    <a href="#custom-panel" id="custom">custom</a>
 </div>
 
 <table>
@@ -37,6 +49,7 @@
     {% else %}
     <tr title="entry {{ item['idx'] }}" entry="{{ item['idx'] }}">
         <td class="day">
+        <span class="delete" entry="{{ item['idx'] }}">delete</span>
         {% for day in daystring %}
             <span class='{% if loop.index != item['day'] %}un{% endif %}selected'>
                 {{ day }}
@@ -56,4 +69,20 @@
     </tr>
 {% endfor %}
 </table>
+{% endblock %}
+
+{% block panel %}
+    <div data-role="panel" id="custom-panel" data-display="reveal" data-position="right">
+        <h3> New Time Entry: </h3>
+        <form>
+            <label for="day-in">Day</label>
+            <input type="date" name="day-in" id="day-in" value="">
+            <label for="time-in">Time In:</label>
+            <input type="time" name="time-in" id="time-in" value="08:00">
+            <label for="time-out">Time Out:</label>
+            <input type="time" name="time-out" id="time-out" value="16:00">
+            <button class="ui-btn ui-icon-plus ui-btn-icon-right ui-corner-all ui-shadow" id="custom-submit">Add to table</button>
+        </form>
+
+    </div><!-- /panel -->
 {% endblock %}

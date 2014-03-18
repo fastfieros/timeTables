@@ -48,7 +48,7 @@ td {
     
 }
 
-td.day          { background-color: #FFFFFF; }
+td.day          { background-color: #F9F9F9; }
 td.in           { background-color: #EEEEEE; }
 td.out          { background-color: #F8F8F8; }
 td.hours        { background-color: #E8E8FF; }
@@ -62,8 +62,10 @@ td.day {
     font-size: 18px;
     text-align: right;
     width: 80px;
+    transition: background-color ease .25s;
 }
 
+td.day span.delete ,
 td.day span.unselected ,
 td.day span.selected {
     font-family: Lato;
@@ -76,4 +78,14 @@ td.day span.selected {
     opacity: 1.0;
     font-weight: bold;
 }
-
+td.day span.delete { 
+    display: none; 
+    cursor: pointer;
+    color: #FFF;
+    width: 100%;
+    text-align: center;
+    font-weight: 100;
+}
+td.day:hover { background-color: #800; }
+td.day:hover span.delete { display: inline; }
+td.day:hover span.selected, td.day:hover span.unselected { display: none; }
