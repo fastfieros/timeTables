@@ -1,11 +1,28 @@
 
 function validateTime(t) {
 
-    var patt = /\d?\d.?\d\d/;
+    var patt = /\d?\d:\d\d/;
     var res  = patt.exec(t);
+
+    var patt2 = /\d?\d\d\d/;
+    var res2  = patt2.exec(t);
+
     if (res != null)
     {
-       return res; 
+        if (res[0].length == 5) {
+            return res[0]; 
+        } else if (res[0].length == 4) {
+            return "0" + res[0]
+        }
+    }
+    else if (res2 != null)
+    {
+        r = res2[0]
+        if (r.length == 4) {
+            return r[0]+r[1]+":"+r[2]+r[3]; 
+        } else if (r.length == 3) {
+            return "0" + r[0]+":"+r[1]+r[2]; 
+        }
     }
     else 
     {
