@@ -1,16 +1,79 @@
+//TABLE Bindings need to re-run after table reload
+function tableBindings() {
+
+    $("td.in, td.out").dblclick(function(e){
+
+        var oldval = $(this).attr('data');
+        var entry = $(this).parent().attr('entry');
+        var key   = $(this).attr('class'); 
+
+        $(this).empty().append(
+        $("<input>")
+            .val(oldval)
+            .attr("type","time")
+            .addClass("editTime")
+            .blur(function(e){
+
+                var newval = $(this)[0].value;
+
+                if (newval == "" || oldval == newval) {
+                    $(this).parent().empty().text(oldval);
+                }
+                else
+                {
+                    var url   = "/edit/"+entry+"/"+key+"/"+newval;
+
+                    $("#result").html("...");
+
+                    $("#popup-result").popup("open", {
+                        "positionTo":"window"});
+
+                    $.get(url, function(d) {
+                        $("#result").html(d);
+                    });
+                }
+
+            })
+            .focus()
+        )
+    });
+
+    $("span.delete").click(function(e){
+
+        req = "/delete/" + $(this).attr('entry');
+
+        $("#result").html("...");
+
+        $("#popup-result").popup("option", {
+            "theme":"b"});
+
+        $("#popup-result").popup("open", {
+            "positionTo":"window"});
+
+        $.get(req, function(d) {
+            $("#result").html(d);
+        });
+
+        e.preventDefault();
+    });
+}
 
 $(function() {
+
+    $("#popup-result").popup({
+        "afteropen":function(){
+
+            $("#tableWrap").load("/table", function(){
+                tableBindings();
+            });
+        }
+     });
 
     $("#in").click(function(e){
 
         $("#result").html("...");
         $("#popup-result").popup("option", {
-            "theme":"a",
-            "afterclose":function(){
-                //TODO just rebuild table
-                location.reload();
-            }
-         });
+            "theme":"a"});
 
         $("#popup-result").popup("open", {
             "positionTo":"window"});
@@ -26,12 +89,7 @@ $(function() {
 
         $("#result").html("...");
         $("#popup-result").popup("option", {
-            "theme":"b",
-            "afterclose":function(){
-                //TODO just rebuild table
-                location.reload();
-            }
-         });
+            "theme":"b"});
 
         $("#popup-result").popup("open", {
             "positionTo":"window"});
@@ -53,12 +111,7 @@ $(function() {
         $("#result").html(req);
 
         $("#popup-result").popup("option", {
-            "theme":"a",
-            "afterclose":function(){
-                //TODO just rebuild table
-                location.reload();
-            }
-         });
+            "theme":"a"});
 
         $("#popup-result").popup("open", {
             "positionTo":"window"});
@@ -70,56 +123,6 @@ $(function() {
         e.preventDefault();
     });
 
-    $("span.delete").click(function(e){
-
-        req = "/delete/" + $(this).attr('entry');
-
-        $("#result").html("...");
-
-        $("#popup-result").popup("option", {
-            "theme":"b",
-            "afterclose":function(){
-                //TODO just rebuild table
-                location.reload();
-            }
-         });
-
-        $("#popup-result").popup("open", {
-            "positionTo":"window"});
-
-        $.get(req, function(d) {
-            $("#result").html(d);
-        });
-
-        e.preventDefault();
-        e.preventDefault();
-    });
-
-    $("td").blur(function(e){
-        var patt = /\d\d\:\d\d/;
-        var newval = patt.exec($(this).html());
-
-        if (!newval) {
-                alert("Format Error, use \"hour:minute\", 24 hour time");
-                $(this).html($(this).attr('data'));
-                return;
-        }
-        else {
-                $(this).html(newval);
-        }
-
-        if ($(this).attr("data") != newval) {
-            var entry = $(this).parent().attr('entry');
-            var key   = $(this).attr('class'); 
-            var url   = "/edit/"+entry+"/"+key+"/"+newval;
-
-            console.log(url);
-
-            $.get(url, function(d) {
-                alert(d);
-                location.reload();
-            });
-        }
-    });
+    tableBindings();
 
 });

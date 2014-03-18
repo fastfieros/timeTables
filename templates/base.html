@@ -2,29 +2,64 @@
 <html>
 <head>
     <title>TimeTables 0.1Alfa</title>
-    {% block head %} {% endblock %}
+
+    <!-- style sheets -->
+    <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jquerymobile/1.4.2/jquery.mobile.min.css" />
+    <link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Lato:300' type='text/css'>
+
+    <link rel='stylesheet' href="{{ url_for("static", filename="style.css") }}" />
+    <link rel='stylesheet' href="{{ url_for("static", filename="actions.css") }}" />
+    <link rel='stylesheet' href="{{ url_for("static", filename="table.css") }}" />
+
+    <!-- jquery mobile scripts -->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquerymobile/1.4.2/jquery.mobile.min.js"></script>
+
+    <!-- my scripts -->
+    <script src="{{ url_for("static", filename="main.js") }}"></script>
 </head>
 <body>
 <div data-role="page">
 
-    <div data-role='header' class="jqm-header">
-        {% block header %}
-        {% endblock %}
-    </div>
-
     <div id='content' role='main' class="ui-content jqm-content">
-        {% block content %}
-        {% endblock %}
+        <div data-role="popup" class="ui-btn ui-corner-all ui-shadow ui-btn-inline" data-transition="pop" id="popup-result"><span id="result"></span></div>
+
+        <div id="actions">
+            <a href="#in" id='in'>sign in</a>
+            <a href="#out" id='out'>sign out</a>
+            <a href="#custom-panel" id="custom">more</a>
+        </div>
+
+        <div id="tableWrap">
+            {% block table %}
+            {% endblock %}
+        </div>
     </div>
 
     <div id='footer' data-role='footer'>
-        {% block footer %}
-        {% endblock %}
         &copy; Copyright novaLosuhWrapters 2014.
-    </div>
+    </div><!-- /footer -->
 
-        {% block panel %}
-        {% endblock %}
+    <div data-role="panel" id="custom-panel" data-display="reveal" data-position="right">
+        <h3> new time entry: </h3>
+        <form>
+            <label for="day-in">day</label>
+            <input type="date" name="day-in" id="day-in" value="">
+            <label for="time-in">time in:</label>
+            <input type="time" name="time-in" id="time-in" value="08:00">
+            <label for="time-out">time out:</label>
+            <input type="time" name="time-out" id="time-out" value="16:00">
+            <button class="ui-btn ui-icon-plus ui-btn-icon-right ui-corner-all ui-shadow" id="custom-submit">add to table</button>
+        </form>
+
+        <div class="help"><h3>quick tips</h3><ul>
+        <li>Click "sign in" to add a row with an "in" time of now.</li>
+        <li>Click "sign out" to update the last row with an "out" time of now.</li>
+        <li>Double click on an "in" or "out" columm to edit it</li>
+        <li>Click on the first colum of a row to delete it</li>
+        </ul></div>
+
+    </div><!-- /panel -->
 
 </div>
 </body>

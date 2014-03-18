@@ -21,7 +21,17 @@ def writeSavedata():
     
 
 @app.route('/')
-def get_index():
+def getIndex():
+    return render_template('table.html', ajax=False,
+                    tbody=getTbody(), daystring="smtwtfs ")
+
+@app.route('/table')
+def getTable():
+    return render_template('table.html', ajax=True,
+                    tbody=getTbody(), daystring="smtwtfs ")
+
+
+def getTbody():
     
     tbody = []
     lastWeek=-1
@@ -76,10 +86,7 @@ def get_index():
     tbody.append({"type":"weekfooter", "sum":hourSum})
     #end calc
 
-    return render_template('table.html', 
-                        tbody=tbody, 
-                        daystring="smtwtfs ")
-
+    return tbody
 
 @app.route('/in')
 def get_in():
