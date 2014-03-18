@@ -74,6 +74,7 @@ def getTbody():
             "type": "entry", 
             "idx" : i, 
             "day" : dayidx,
+            "date": time.strftime("%x", time.localtime(entry[0])),
             "in"  : time.strftime(sfmt, time.localtime(entry[0])),
             "out" : endtime,
             "predict" : predict,

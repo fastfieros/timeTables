@@ -21,7 +21,7 @@
     <tr>
         <th colspan='3' class='label-total'>subtotal:</th><th class='sum'>{{ item['sum'] }}</th>
     {% else %}
-    <tr title="entry {{ item['idx'] }}" entry="{{ item['idx'] }}">
+    <tr title="{{ item['date'] }}" entry="{{ item['idx'] }}">
         <td class="day">
         <span class="delete" entry="{{ item['idx'] }}">delete</span>
         {% for day in daystring %}
