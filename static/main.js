@@ -78,7 +78,7 @@ function tableBindings() {
             $("#popup-result").popup("open", {
                 "positionTo":"window"});
 
-            $.get(url, function(d) {
+            $.get(_URL_PREFIX+url, function(d) {
                 $("#result").html(d);
             });
         }
@@ -97,7 +97,7 @@ function tableBindings() {
         $("#popup-result").popup("open", {
             "positionTo":"window"});
 
-        $.get(req, function(d) {
+        $.get(_URL_PREFIX+req, function(d) {
             $("#result").html(d);
         });
 
@@ -110,7 +110,7 @@ $(function() {
     $("#popup-result").popup({
         "afteropen":function(){
 
-            $("#tableWrap").load("/table", function(){
+            $("#tableWrap").load(_URL_PREFIX+"/table", function(){
                 tableBindings();
             });
         }
@@ -125,7 +125,7 @@ $(function() {
         $("#popup-result").popup("open", {
             "positionTo":"window"});
 
-        $.get("/in", function(d) {
+        $.get(_URL_PREFIX+"/in", function(d) {
             $("#result").html(d);
         });
         
@@ -141,7 +141,7 @@ $(function() {
         $("#popup-result").popup("open", {
             "positionTo":"window"});
 
-        $.get("/out", function(d) {
+        $.get(_URL_PREFIX+"/out", function(d) {
             $("#result").html(d);
         });
         
@@ -178,7 +178,7 @@ $(function() {
         $("#popup-result").popup("open", {
             "positionTo":"window"});
 
-        $.get(req, function(d) {
+        $.get(_URL_PREFIX+req, function(d) {
             $("#result").html(d);
         });
 
