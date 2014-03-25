@@ -5,7 +5,7 @@ from flask import Flask, render_template, url_for
 import pickle
 import isoweek
 
-savefile="./savefile.p"
+savefile="/data/web/savefile.p"
 savedata=[]
 sfmt = "%H:%M"
 app = Flask(__name__)
